@@ -4,6 +4,136 @@ html,body{margin:0;width:100%;height:100%;background:#07111f}#entreDeck{backgrou
 #stageBanner{display:flex;align-items:center;justify-content:space-between;gap:12px}.promptBadge{display:inline-flex;align-items:center;padding:5px 9px;border:1px solid #39d5ff;border-radius:999px;background:rgba(57,213,255,.08);color:#cfefff;font:800 11px/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em;white-space:nowrap;box-shadow:0 0 0 1px rgba(57,213,255,.05) inset}
 .story:has(.experimentFlow){display:block;margin:0;padding:0;border:0;border-radius:0;background:transparent;width:100%}.experimentFlow{width:100%;margin-top:24px}.experimentSteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:stretch}.experimentStep{position:relative;border:1px solid #284c69;border-radius:16px;padding:18px;background:#0d1e30;min-height:178px;display:flex;flex-direction:column;gap:12px}.experimentStep:not(:last-child):after{content:'→';position:absolute;right:-15px;top:50%;transform:translateY(-50%);z-index:2;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#07111f;color:#39d5ff;font-weight:900}.experimentStep.hot{border-color:#2b709b;background:linear-gradient(145deg,#0e2c43,#102238)}.experimentKicker{font-size:11px;font-weight:850;letter-spacing:.14em;text-transform:uppercase;color:#39d5ff}.experimentStep strong{font-size:18px;line-height:1.2;color:#f7f9fc}.experimentStep span{font-size:13px;line-height:1.42;color:#9fb2c7}.experimentRule{margin-top:16px;padding:13px 16px;border:1px solid #315a7d;border-radius:14px;background:#071522;text-align:center;font-weight:800;color:#dce9f7}.experimentRule strong{color:#39d5ff}@media(max-width:760px){.experimentSteps{grid-template-columns:1fr 1fr}.experimentStep{min-height:0}.experimentStep:not(:last-child):after{display:none}.experimentRule{font-size:13px}}
 .story:has(.launchVisual){display:block;margin:0;padding:0;border:0;border-radius:0;background:transparent;width:100%}.launchVisual{display:grid;grid-template-columns:minmax(0,.78fr) minmax(420px,1.22fr);gap:24px;align-items:center;width:100%;margin-top:24px}.launchMessage{padding:18px;border:1px solid #284c69;border-radius:16px;background:#0d1e30;color:#b8c9da;font-size:18px;line-height:1.45}.launchMessage strong{display:block;margin-top:8px;color:#39d5ff;font-size:22px;line-height:1.25}.launchImage{display:block;width:100%;max-height:min(50vh,500px);object-fit:contain;border-radius:18px;border:1px solid #29435e;background:#07111f}@media(max-width:760px){.launchVisual{grid-template-columns:1fr}.launchImage{max-height:320px}.launchMessage{font-size:15px}.launchMessage strong{font-size:18px}}
+
+
+/* --- Uniform slide sizing / viewport-fit patch ---
+   Keeps every slide inside the same fixed 16:9 deck frame and prevents
+   image-only slides, notes, or oversized content from changing the deck size. */
+html,body{
+  overflow:hidden;
+  width:100%;
+  height:100%;
+}
+#entreDeck{
+  width:100%;
+  height:100svh;
+  min-height:0;
+  padding:12px;
+  overflow:hidden;
+  align-items:center;
+  justify-content:center;
+}
+.frame{
+  position:relative;
+  width:min(1280px,calc(100vw - 24px),calc((100svh - 24px) * 16 / 9));
+  height:auto;
+  aspect-ratio:16/9;
+  max-height:calc(100svh - 24px);
+  display:grid;
+  grid-template-rows:auto 4px auto auto minmax(0,1fr) auto;
+}
+.top,.progress,.spine,#stageBanner,.foot{
+  flex:0 0 auto;
+}
+#stageBanner{
+  min-height:38px;
+  overflow:hidden;
+}
+.screen{
+  min-height:0 !important;
+  height:100%;
+  padding:clamp(18px,3.2vw,40px) clamp(20px,3.6vw,46px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.screen:has(.slideImage:not(.heroAsset)){
+  min-height:0 !important;
+  padding:clamp(6px,1vw,10px) !important;
+}
+.slideInner{
+  width:100%;
+  max-width:100%;
+  transform-origin:center center;
+  will-change:transform;
+}
+.slideInner > .eye:first-child,
+.slideInner > h1,
+.slideInner > h2,
+.slideInner > .sub,
+.slideInner > .grid,
+.slideInner > .story{
+  position:relative;
+  z-index:1;
+}
+.story:has(.slideImage),
+.story:has(.closingWrap),
+.story:has(.trapLayout),
+.story:has(.interviewCompare),
+.story:has(.riskMatrix),
+.story:has(.marketModel),
+.story:has(.experimentFlow),
+.story:has(.launchVisual){
+  max-height:100%;
+}
+.slideImage{
+  max-height:100%;
+  height:auto;
+}
+.slideImage.heroAsset{
+  max-height:clamp(160px,38svh,330px);
+}
+.heroWrap,.trapLayout,.interviewCompare,.riskMatrix,.marketModel,.experimentFlow,.launchVisual,.closingWrap{
+  max-height:100%;
+}
+.trapImage,.launchImage{
+  max-height:clamp(180px,42svh,500px);
+}
+.riskMatrix,.marketModel,.experimentFlow,.launchVisual{
+  margin-top:clamp(12px,2vw,24px);
+}
+.grid{
+  max-height:100%;
+}
+.notes{
+  position:absolute;
+  left:16px;
+  right:16px;
+  bottom:64px;
+  max-height:calc(100% - 120px);
+  overflow:auto;
+  z-index:20;
+  border:1px solid #29435e;
+  border-radius:16px;
+  box-shadow:0 22px 60px rgba(0,0,0,.45);
+}
+.prompt{
+  max-height:clamp(120px,32svh,260px);
+}
+@media(max-width:760px){
+  #entreDeck{
+    height:100svh;
+    padding:4px;
+    align-items:center;
+  }
+  .frame{
+    width:min(calc(100vw - 8px),calc((100svh - 8px) * 16 / 9));
+    max-height:calc(100svh - 8px);
+  }
+  .top{padding:6px 9px;gap:7px}
+  .brand{font-size:10px}
+  .stage{font-size:10px;padding:4px 7px}
+  .spine{grid-template-columns:repeat(6,1fr);gap:3px;padding:4px 6px}
+  .chip{font-size:8px;padding:4px 2px}
+  #stageBanner{min-height:26px;padding:6px 9px !important;font-size:9px !important;letter-spacing:.08em !important}
+  .screen{padding:10px 12px}
+  .foot{padding:5px 8px;gap:5px}
+  .foot button{min-height:26px;padding:4px 7px;font-size:10px;border-radius:8px}
+  .count{width:auto;margin-left:auto;font-size:10px}
+  .notes{left:8px;right:8px;bottom:44px;max-height:calc(100% - 72px);padding:12px}
+}
+
 </style>
 
 <div class="frame">
@@ -333,6 +463,35 @@ function drawSpine(){
   ).join('')
 }
 
+
+function fitSlideContent(){
+  const inner=screen.querySelector('.slideInner');
+  if(!inner)return;
+
+  inner.style.transform='scale(1)';
+
+  const availableW=Math.max(1,screen.clientWidth);
+  const availableH=Math.max(1,screen.clientHeight);
+  const neededW=Math.max(1,inner.scrollWidth);
+  const neededH=Math.max(1,inner.scrollHeight);
+  const scale=Math.min(1,availableW/neededW,availableH/neededH);
+
+  inner.style.transform=`scale(${scale})`;
+}
+
+function setScreenContent(html){
+  screen.innerHTML=`<div class="slideInner">${html}</div>`;
+  screen.querySelectorAll('img').forEach(img=>{
+    if(!img.complete){
+      img.addEventListener('load',fitSlideContent,{once:true});
+      img.addEventListener('error',fitSlideContent,{once:true});
+    }
+  });
+  requestAnimationFrame(fitSlideContent);
+}
+
+window.addEventListener('resize',()=>requestAnimationFrame(fitSlideContent));
+
 function draw(){
   const s=S[i];
   const [stage,eye,title,sub,body,n,p]=s;
@@ -359,7 +518,7 @@ function draw(){
     }
   }
 
-  screen.innerHTML=content;
+  setScreenContent(content);
 
   bar.style.width=((i+1)/S.length*100)+'%';
 
@@ -435,7 +594,7 @@ nb.addEventListener('click',()=>{
 root.querySelector('#overview')
   .addEventListener('click',()=>{
 
-    screen.innerHTML=
+    setScreenContent(
       `<div class="eye">Deck overview</div>
        <h2>Design Thinking journey</h2>
        <div class="grid">${
@@ -449,7 +608,8 @@ root.querySelector('#overview')
               <span>${S.filter(s=>s[0]===x).length} slides</span>
             </button>`
          ).join('')
-       }</div>`;
+       }</div>`
+    );
 
     screen.querySelectorAll('[data-go]').forEach(b=>
       b.addEventListener('click',()=>{
