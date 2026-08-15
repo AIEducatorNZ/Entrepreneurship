@@ -250,6 +250,16 @@ html,body{
   .interviewSlide .interviewRule{margin-top:20px}
 }
 
+
+/* --- Human decision gate patch --- */
+#stageBanner{justify-content:flex-start !important}
+.promptBadge,.decisionBadge{margin-left:8px}
+.decisionBadge{display:inline-flex;align-items:center;padding:5px 9px;border:1px solid #ffd166;border-radius:999px;background:rgba(255,209,102,.1);color:#ffe6a8;font:850 11px/1 Inter,system-ui,sans-serif;letter-spacing:.09em;white-space:nowrap;box-shadow:0 0 0 1px rgba(255,209,102,.06) inset}
+.decisionGate{margin-top:clamp(14px,1.8vw,24px);display:flex;align-items:center;gap:14px;max-width:960px;padding:14px 16px;border:1px solid rgba(255,209,102,.65);border-left:6px solid #ffd166;border-radius:16px;background:rgba(255,209,102,.08);box-shadow:0 16px 42px rgba(0,0,0,.16)}
+.decisionGate strong{flex:0 0 auto;color:#ffd166;font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.decisionGate span{color:#f2e8cf;font-size:clamp(15px,1.25vw,20px);line-height:1.35;font-weight:650}
+@media(max-width:760px){.decisionGate{align-items:flex-start;flex-direction:column;gap:6px;padding:10px 12px}.decisionGate span{font-size:13px}.decisionBadge{font-size:9px;padding:4px 6px}}
+
 </style>
 
 <div class="frame">
@@ -342,7 +352,7 @@ const S=[
 'How the prompts work',
 'One conversation. One evolving evidence base.',
 'The prompts only appear when there is a concrete piece of entrepreneurial work to do.',
-'Run the sequence in the same AI chat • Keep a Venture Evidence Brief • Each action prompt inherits the last • Separate evidence from assumptions • Carry unresolved questions forward',
+'Run the sequence in the same AI chat • Keep a Venture Evidence Brief • Each action prompt inherits the last • Separate evidence from assumptions • Human decision gates belong to the founder • Carry unresolved questions forward',
 'Explain that the prompts are deliberately chained rather than standalone. Concept slides have speaker notes only; action slides add the next prompt in the workflow.',
 ''],
 
@@ -393,7 +403,8 @@ const S=[
 'Narrow the customer, context, pain and alternative.',
 'The evidence may reveal two linked problems: one for students and one for cafés.',
 'Move from divergence to convergence.',
-'Using only the evidence accumulated during Empathise, write up to five precise problem statements in the form: [customer] struggles to [job] when [context] because [pain/current alternative]. For each, cite the evidence already in the Venture Evidence Brief, score its evidence strength and commercial relevance, and recommend the best-supported problem to take forward.'],
+'Using only the evidence accumulated during Empathise, write up to five precise problem statements in the form: [customer] struggles to [job] when [context] because [pain/current alternative]. For each, cite the evidence already in the Venture Evidence Brief, score its evidence strength and commercial relevance, and recommend the best-supported problem to take forward.',
+'Founder selects, modifies or rejects the problem statement before Jobs-to-Be-Done.'],
 
 ['Define',
 '',
@@ -411,7 +422,8 @@ const S=[
 'Diverge before you converge.',
 'Marketplace • café SaaS • membership • university partnership • low-tech service',
 'Show how cheap exploration has become. This is where LastBite becomes one possible solution among several.',
-'Using the selected problem, Jobs-to-Be-Done analysis, market constraints and highest-risk assumptions in our Venture Evidence Brief, generate 20 materially different ways to solve the problem. Include software, service, marketplace, partnership and low-tech approaches. For each, identify who pays, which job it addresses, what existing evidence supports it and the biggest new assumption it introduces. Do not privilege the original app idea.'],
+'Using the selected problem, Jobs-to-Be-Done analysis, market constraints and highest-risk assumptions in our Venture Evidence Brief, generate 20 materially different ways to solve the problem. Include software, service, marketplace, partnership and low-tech approaches. For each, identify who pays, which job it addresses, what existing evidence supports it and the biggest new assumption it introduces. Do not privilege the original app idea. Recommend three solution territories worth investigating next.',
+'Founder chooses which solution territories enter competitor research.'],
 
 ['Ideate',
 'Competitors',
@@ -419,7 +431,8 @@ const S=[
 '',
 'Direct • indirect • substitutes • do nothing',
 'Competitor research should answer why you should exist.',
-'Using the customer job and strongest solution territories already in our Venture Evidence Brief, map direct competitors, indirect competitors, substitutes and do-nothing behaviour. Compare target customer, proposition, pricing, business model, distribution, strengths, weaknesses and complaints. Then reassess which of our solution territories still look differentiated.'],
+'Using the customer job and selected solution territories already in our Venture Evidence Brief, map direct competitors, indirect competitors, substitutes and do-nothing behaviour. Compare target customer, proposition, pricing, business model, distribution, strengths, weaknesses and complaints. Then reassess which territories still look differentiated and recommend one leading solution direction for prototyping.',
+'Founder chooses the leading solution direction before prototyping.'],
 
 ['Prototype',
 '',
@@ -427,7 +440,8 @@ const S=[
 '',
 '<img class="slideImage" src="images/slide-18.png" alt="Manual LastBite prototype storyboard showing a low-cost MVP experiment">',
 'Walk through the manual MVP as a learning system. The point is not that this is the product; the point is that it cheaply creates real behavioural evidence before an app exists.',
-'Using the leading solution direction and the highest-priority, lowest-evidence assumption already in our Venture Evidence Brief, design five MVP experiments that test that assumption within seven days and under [budget]. Specify the prototype, participants, observed behaviour, success/failure threshold, cost and evidence strength. Recommend the experiment with the best learning per dollar.'],
+'Using the leading solution direction and the highest-priority, lowest-evidence assumption already in our Venture Evidence Brief, design five MVP experiments that test that assumption within seven days and under [budget]. Specify the prototype, participants, observed behaviour, success/failure threshold, cost and evidence strength. Recommend the experiment with the best learning per dollar.',
+'Founder chooses, modifies or rejects the MVP experiment before pricing and willingness-to-pay tests.'],
 
 ['Prototype',
 'Pricing',
@@ -435,9 +449,11 @@ const S=[
 'Ask what pricing model to test, not what the answer is.',
 'Commission • subscription • sponsorship • hybrid',
 'Distinguish pricing model from price point.',
-'Using the current solution direction, value proposition, competitive alternatives and behaviours already captured in our Venture Evidence Brief, generate six plausible pricing models. Compare payer, value metric, friction, incentives, predictability, complexity, margin impact and objections. Then propose three behavioural willingness-to-pay tests that can plug into the MVP experiment already chosen.'],
+'Using the current solution direction, value proposition, competitive alternatives and behaviours already captured in our Venture Evidence Brief, generate six plausible pricing models. Compare payer, value metric, friction, incentives, predictability, complexity, margin impact and objections. Then propose three behavioural willingness-to-pay tests that can plug into the MVP experiment already chosen.',
+'Founder chooses the pricing hypotheses and willingness-to-pay tests to carry into the hypothesis backlog.'],
 
-['Test','5. Test','Turn assumptions into experiments.','The startup is a collection of hypotheses.','<div class="experimentFlow"><div class="experimentSteps"><div class="experimentStep"><div class="experimentKicker">1. Assumption</div><strong>Students will buy surplus food after 3pm.</strong><span>State the behaviour you believe will happen.</span></div><div class="experimentStep hot"><div class="experimentKicker">2. Experiment</div><strong>Offer surplus from one café for five days.</strong><span>Create the smallest test that exposes the assumption to reality.</span></div><div class="experimentStep"><div class="experimentKicker">3. Measure</div><strong>What percentage of offers are actually purchased?</strong><span>Choose a behavioural metric and a pass/fail threshold before the test.</span></div><div class="experimentStep"><div class="experimentKicker">4. Decide</div><strong>Continue, change, or kill.</strong><span>Let the evidence determine what happens next.</span></div></div><div class="experimentRule"><strong>We believe...</strong> → We will test... → We will measure... → We will decide...</div></div>','Walk left to right: assumption, experiment, measure, decision. Emphasise that the metric and threshold should be chosen before seeing the result. The point is to turn opinions into falsifiable learning.','Using the current assumptions, selected prototype and pricing hypotheses in our Venture Evidence Brief, convert the venture into a ranked hypothesis backlog using: We believe [customer] will [behaviour] because [reason]. We will know when [measurable evidence]. For each hypothesis, include importance, current evidence strength, metric, pass/fail threshold and cheapest valid test.'],
+['Test','5. Test','Turn assumptions into experiments.','The startup is a collection of hypotheses.','<div class="experimentFlow"><div class="experimentSteps"><div class="experimentStep"><div class="experimentKicker">1. Assumption</div><strong>Students will buy surplus food after 3pm.</strong><span>State the behaviour you believe will happen.</span></div><div class="experimentStep hot"><div class="experimentKicker">2. Experiment</div><strong>Offer surplus from one café for five days.</strong><span>Create the smallest test that exposes the assumption to reality.</span></div><div class="experimentStep"><div class="experimentKicker">3. Measure</div><strong>What percentage of offers are actually purchased?</strong><span>Choose a behavioural metric and a pass/fail threshold before the test.</span></div><div class="experimentStep"><div class="experimentKicker">4. Decide</div><strong>Continue, change, or kill.</strong><span>Let the evidence determine what happens next.</span></div></div><div class="experimentRule"><strong>We believe...</strong> → We will test... → We will measure... → We will decide...</div></div>','Walk left to right: assumption, experiment, measure, decision. Emphasise that the metric and threshold should be chosen before seeing the result. The point is to turn opinions into falsifiable learning.','Using the current assumptions, selected prototype and pricing hypotheses in our Venture Evidence Brief, convert the venture into a ranked hypothesis backlog using: We believe [customer] will [behaviour] because [reason]. We will know when [measurable evidence]. For each hypothesis, include importance, current evidence strength, metric, pass/fail threshold and cheapest valid test.',
+'Founder chooses which tests will actually run and commits to pass/fail thresholds before seeing results.'],
 ['Test',
 '',
 '',
@@ -452,9 +468,11 @@ const S=[
 'Desirability + feasibility + viability.',
 'CAC • LTV • margin • retention • payback',
 'AI can model scenarios; evidence must ground inputs.',
-'Using only the pricing, transaction, acquisition, retention and cost evidence already in our Venture Evidence Brief—or values explicitly labelled as assumptions—build a simple unit economics model covering revenue, variable costs, gross margin, CAC, retention, purchase frequency, LTV and payback. Create conservative/base/optimistic cases and identify the inputs most worth measuring next.'],
+'Using only the pricing, transaction, acquisition, retention and cost evidence already in our Venture Evidence Brief—or values explicitly labelled as assumptions—build a simple unit economics model covering revenue, variable costs, gross margin, CAC, retention, purchase frequency, LTV and payback. Create conservative/base/optimistic cases and identify the inputs most worth measuring next.',
+'Founder decides whether the evidence is strong enough for launch planning, or whether to continue testing first.'],
 
-['Launch & Learn','6. Launch & Learn','Validation changes the question.','From “does anyone want this?” to “can we repeatedly acquire and retain them?”','<div class="launchVisual"><div class="launchMessage">Launch is not the end of Design Thinking.<strong>Launch creates evidence. Evidence drives refinement.</strong></div><img class="launchImage" src="images/slide-23.png" alt="Launch and Learn flywheel showing customer acquisition, activation, retention, referral, learning and refinement"></div>','Use the image to show that launch creates a continuous evidence loop. Move from validation to repeatable acquisition, activation, retention and referral, then emphasise that customer behaviour feeds the next refinement cycle.','Using only the validated customer, problem, solution, pricing, testing and unit-economics evidence accumulated in our Venture Evidence Brief, design an initial go-to-market learning plan. Include positioning, acquisition, activation, retention, referral, partnerships and metrics. Prioritise five 30-day experiments and state which remaining uncertainty each one addresses.'],
+['Launch & Learn','6. Launch & Learn','Validation changes the question.','From “does anyone want this?” to “can we repeatedly acquire and retain them?”','<div class="launchVisual"><div class="launchMessage">Launch is not the end of Design Thinking.<strong>Launch creates evidence. Evidence drives refinement.</strong></div><img class="launchImage" src="images/slide-23.png" alt="Launch and Learn flywheel showing customer acquisition, activation, retention, referral, learning and refinement"></div>','Use the image to show that launch creates a continuous evidence loop. Move from validation to repeatable acquisition, activation, retention and referral, then emphasise that customer behaviour feeds the next refinement cycle.','Using only the validated customer, problem, solution, pricing, testing and unit-economics evidence accumulated in our Venture Evidence Brief, design an initial go-to-market learning plan. Include positioning, acquisition, activation, retention, referral, partnerships and metrics. Prioritise five 30-day experiments and state which remaining uncertainty each one addresses.',
+'Founder chooses the initial 30-day go-to-market experiment set, including channel focus and constraints.'],
 ['Launch & Learn',
 'First 100 customers',
 'Do things that teach you.',
@@ -549,10 +567,16 @@ We are beginning one continuous entrepreneurial workflow. Create and maintain a 
 13. Risks / unanswered questions
 14. Decisions and changes
 
-Rules: distinguish evidence from inference and speculation; never treat AI output as customer validation; never silently overwrite earlier findings; flag contradictions; and preserve useful outputs for the next action prompt.`
+Rules: distinguish evidence from inference and speculation; never treat AI output as customer validation; never silently overwrite earlier findings; flag contradictions; preserve useful outputs for the next action prompt; and at human decision gates, stop for the founder's decision rather than deciding autonomously.`
     :`CONTINUE THE EXISTING VENTURE EVIDENCE BRIEF
 
 Start from the evidence, assumptions, decisions and unresolved questions produced by the previous ACTION prompt. Do not restart the analysis, repeat work unnecessarily or invent missing evidence. If this task changes an earlier conclusion, explain why.`;
+
+  const gate=S[idx]&&S[idx][7]?S[idx][7]:'';
+
+  const decision=gate
+    ?`\n\nHUMAN DECISION GATE\nAfter completing the analysis, do not move to the next workflow step yet. Ask me to make this decision: ${gate}. Once I respond, record the decision, rationale and any changes in the Venture Evidence Brief.`
+    :'';
 
   const end=`
 
@@ -568,7 +592,7 @@ Update the Venture Evidence Brief with only what this step adds or changes. Fini
 CURRENT DESIGN THINKING STAGE: ${stage}
 
 ACTION
-${p}${end}`
+${p}${decision}${end}`
 }
 
 function drawSpine(){
@@ -610,7 +634,7 @@ window.addEventListener('resize',()=>requestAnimationFrame(fitSlideContent));
 
 function draw(){
   const s=S[i];
-  const [stage,eye,title,sub,body,n,p]=s;
+  const [stage,eye,title,sub,body,n,p,gate]=s;
 
   let content=`<div class="eye">${eye}</div>`;
 
@@ -634,6 +658,10 @@ function draw(){
     }
   }
 
+  if(gate){
+    content+=`<div class="decisionGate"><strong>Human decision gate</strong><span>${gate}</span></div>`
+  }
+
   setScreenContent(content);
 
   bar.style.width=((i+1)/S.length*100)+'%';
@@ -644,6 +672,15 @@ function draw(){
       :'Design Thinking';
 
   stageBanner.textContent=stageLabel(stage);
+  if(gate){
+    const db=document.createElement('span');
+    db.id='decisionBadge';
+    db.className='decisionBadge';
+    db.textContent='DECISION GATE';
+    db.setAttribute('aria-label','Human decision gate on this slide');
+    db.title='Human decision gate';
+    stageBanner.appendChild(db)
+  }
 
   count.textContent=`${i+1} / ${S.length}`;
 
@@ -658,18 +695,20 @@ function draw(){
 
   promptHint.textContent=
     hasPrompt
-      ?'Action prompt: run this in the same AI conversation as the previous action prompt. Each action reads and updates the Venture Evidence Brief.'
+      ?(gate
+        ?'Action prompt + human decision gate: run this in the same AI conversation, then stop for the founder decision before continuing.'
+        :'Action prompt: run this in the same AI conversation as the previous action prompt. Each action reads and updates the Venture Evidence Brief.')
       :'';
 
   notesTitle.textContent=
     hasPrompt
-      ?'Speaker notes + action prompt'
+      ?(gate?'Speaker notes + action prompt + decision gate':'Speaker notes + action prompt')
       :'Speaker notes';
 
   nb.textContent=
     notes.classList.contains('open')
       ?'Hide Notes'
-      :(hasPrompt?'Notes / Prompt':'Notes');
+      :(hasPrompt?(gate?'Notes / Prompt / Gate':'Notes / Prompt'):'Notes');
 
   drawSpine();
 
@@ -700,11 +739,12 @@ nb.addEventListener('click',()=>{
 
   const hasPrompt=
     !!chainPrompt(S[i][0],S[i][6],i);
+  const gate=S[i]&&S[i][7];
 
   nb.textContent=
     o
       ?'Hide Notes'
-      :(hasPrompt?'Notes / Prompt':'Notes')
+      :(hasPrompt?(gate?'Notes / Prompt / Gate':'Notes / Prompt'):'Notes')
 });
 
 root.querySelector('#overview')
@@ -721,7 +761,7 @@ root.querySelector('#overview')
              type="button"
              style="color:white;text-align:left;cursor:pointer">
               <b>Stage ${j+1}: ${x}</b>
-              <span>${S.filter(s=>s[0]===x).length} slides</span>
+              <span>${S.filter(s=>s[0]===x).length} slides${S.filter(s=>s[0]===x&&s[7]).length?` • ${S.filter(s=>s[0]===x&&s[7]).length} gates`:''}</span>
             </button>`
          ).join('')
        }</div>`
