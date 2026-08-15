@@ -394,6 +394,98 @@ html,body{
 .decisionGate span{color:#f2e8cf;font-size:clamp(15px,1.25vw,20px);line-height:1.35;font-weight:650}
 @media(max-width:760px){.decisionGate{align-items:flex-start;flex-direction:column;gap:6px;padding:10px 12px}.decisionGate span{font-size:13px}.decisionBadge{font-size:9px;padding:4px 6px}}
 
+/* --- Image-led decision gate layout ---
+   For image-heavy slides, keep the image large and move the decision gate into
+   a vertical side rail instead of shrinking the slide with a footer-style gate. */
+.slideInner:has(.imageGateLayout){height:100%;}
+.imageGateLayout{
+  width:100%;
+  height:100%;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) clamp(230px,18vw,340px);
+  gap:clamp(16px,2vw,28px);
+  align-items:stretch;
+}
+.imageGateVisual{
+  min-width:0;
+  min-height:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.imageGateVisual .story{
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  width:100%;
+  height:100%;
+}
+.imageGateVisual .slideImage{
+  width:100%;
+  height:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+.imageGateVisual .launchVisual{
+  width:100%;
+  height:100%;
+  margin:0;
+  grid-template-columns:minmax(260px,.72fr) minmax(0,1.28fr);
+  gap:clamp(16px,2vw,26px);
+}
+.imageGateVisual .launchImage{
+  max-height:100%;
+}
+.decisionRail{
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:16px;
+  padding:clamp(18px,2vw,28px);
+  border:1px solid rgba(255,209,102,.7);
+  border-left:8px solid #ffd166;
+  border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,209,102,.12),rgba(255,209,102,.055));
+  box-shadow:0 18px 48px rgba(0,0,0,.2);
+}
+.decisionRailKicker{
+  color:#ffd166;
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  line-height:1.15;
+}
+.decisionRailText{
+  color:#f8edcf;
+  font-size:clamp(22px,2vw,34px);
+  line-height:1.12;
+  font-weight:850;
+  letter-spacing:-.025em;
+}
+.decisionRailText em{
+  display:block;
+  margin-top:12px;
+  color:#c9b987;
+  font-style:normal;
+  font-size:clamp(14px,1vw,17px);
+  line-height:1.4;
+  font-weight:650;
+  letter-spacing:0;
+}
+@media(max-width:900px){
+  .imageGateLayout{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;gap:12px}
+  .decisionRail{border-left:1px solid rgba(255,209,102,.7);border-top:6px solid #ffd166;padding:14px 16px}
+  .decisionRailText{font-size:18px;line-height:1.25}
+}
+
+
 </style>
 
 <div class="frame">
@@ -780,10 +872,27 @@ function draw(){
     content+=`<div class="sub">${sub}</div>`
   }
 
+  const isImageGate = !!(gate && body && (
+    body.includes('class="slideImage"') ||
+    body.includes('class="launchVisual"')
+  ));
+
+  function gateRailText(g){
+    if(g.includes('MVP experiment')){
+      return 'Which MVP experiment will we actually run?<em>Choose, modify or reject the recommendation before moving to pricing.</em>'
+    }
+    if(g.includes('30-day go-to-market')){
+      return 'Which 30-day go-to-market experiments will we actually run?<em>Choose the channel focus, constraints and experiment set before launch planning continues.</em>'
+    }
+    return `${g}<em>Stop here. The founder decides before the workflow continues.</em>`
+  }
+
   if(body){
-    if(body.includes('•')){
+    if(isImageGate){
+      content+=`<div class="imageGateLayout"><div class="imageGateVisual"><div class="story">${body}</div></div><aside class="decisionRail"><div class="decisionRailKicker">Human decision gate</div><div class="decisionRailText">${gateRailText(gate)}</div></aside></div>`
+    } else if(body.includes('\u2022')){
       content+=`<div class="grid">${
-        body.split('•').map(x=>
+        body.split('\u2022').map(x=>
           `<div class="card"><span>${x.trim()}</span></div>`
         ).join('')
       }</div>`
@@ -792,7 +901,7 @@ function draw(){
     }
   }
 
-  if(gate){
+  if(gate&&!isImageGate){
     content+=`<div class="decisionGate"><strong>Human decision gate</strong><span>${gate}</span></div>`
   }
 
