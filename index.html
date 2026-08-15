@@ -191,8 +191,9 @@ html,body{
 
 
 
-/* --- Slide 10 balance patch: make Customer interviews use the full wide canvas --- */
-.story:has(.interviewSlide){
+/* --- Slide 10 rebuilt: balanced 3-column interview comparison --- */
+.story:has(.interviewSlideBalanced),
+.story:has(.riskMatrixWide){
   display:block;
   margin:0;
   padding:0;
@@ -200,56 +201,189 @@ html,body{
   border-radius:0;
   background:transparent;
   width:100%;
-  height:100%;
 }
-.interviewSlide{
+.interviewSlideBalanced{
   width:100%;
-  min-height:100%;
   display:grid;
-  grid-template-columns:minmax(360px,.86fr) minmax(520px,1.14fr);
-  gap:clamp(32px,5vw,92px);
-  align-items:center;
+  grid-template-columns:minmax(300px,1.05fr) minmax(260px,.9fr) minmax(260px,.9fr);
+  gap:clamp(18px,2vw,28px);
+  align-items:stretch;
 }
-.interviewIntro .eye{
-  margin-bottom:18px;
+.interviewLead{
+  border:1px solid #284c69;
+  border-radius:24px;
+  padding:clamp(24px,2.4vw,34px);
+  background:linear-gradient(145deg,#10263d,#0b1c2d);
+  display:flex;
+  flex-direction:column;
+  min-height:100%;
 }
-.interviewIntro h1{
-  max-width:none;
-  font-size:clamp(52px,6.3vw,96px);
-  line-height:.92;
+.interviewKicker{
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#39d5ff;
+  margin-bottom:16px;
 }
-.interviewIntro .sub{
-  max-width:680px;
-  font-size:clamp(22px,2.1vw,34px);
-  margin-top:26px;
+.interviewHeadline{
+  font-size:clamp(36px,4vw,70px);
+  line-height:.96;
+  letter-spacing:-.045em;
+  font-weight:850;
+  color:#f7f9fc;
 }
-.interviewSlide .interviewCards{
-  grid-template-columns:1fr;
-  gap:18px;
+.interviewLeadSub{
+  margin-top:18px;
+  color:#bacadd;
+  font-size:clamp(18px,1.55vw,28px);
+  line-height:1.35;
 }
-.interviewSlide .interviewCard{
-  min-height:clamp(170px,22vh,260px);
-  padding:clamp(22px,2.5vw,36px);
+.interviewVerdict{
+  margin-top:auto;
+  padding-top:28px;
+  font-size:clamp(28px,2.6vw,46px);
+  line-height:1.04;
+  font-weight:850;
+  letter-spacing:-.03em;
+  color:#dce9f7;
 }
-.interviewSlide .interviewQuote{
-  font-size:clamp(32px,3.4vw,56px);
+.interviewVerdict strong{color:#39d5ff}
+.interviewPanel{
+  border:1px solid #284c69;
+  border-radius:24px;
+  padding:clamp(22px,2.2vw,32px);
+  background:#102238;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  min-height:100%;
 }
-.interviewSlide .interviewMeta{
-  font-size:clamp(15px,1.15vw,20px);
+.interviewPanel.bad{background:#111e2d}
+.interviewPanel.good{border-color:#2b709b;background:linear-gradient(145deg,#0f2940,#102238)}
+.interviewPanel .interviewLabel{
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#91a6bd;
 }
-.interviewSlide .interviewRule{
-  margin-top:36px;
-  text-align:left;
-  font-size:clamp(24px,2.8vw,44px);
+.interviewPanel.good .interviewLabel{color:#39d5ff}
+.interviewPanel .interviewQuote{
+  font-size:clamp(28px,2.7vw,48px);
   line-height:1.08;
+  font-weight:850;
+  letter-spacing:-.03em;
+  color:#dce9f7;
+  margin:0;
 }
-@media(max-width:900px){
-  .interviewSlide{grid-template-columns:1fr;gap:22px}
-  .interviewIntro h1{font-size:clamp(38px,9vw,64px)}
-  .interviewSlide .interviewCard{min-height:0}
-  .interviewSlide .interviewRule{margin-top:20px}
+.interviewPanel .interviewMeta{
+  color:#9fb2c7;
+  font-size:clamp(15px,1.05vw,18px);
+  line-height:1.45;
+  margin-top:auto;
+}
+.interviewPills{
+  display:grid;
+  gap:10px;
+}
+.interviewPill{
+  display:block;
+  padding:11px 13px;
+  border-radius:12px;
+  border:1px solid #284c69;
+  background:#10243a;
+  color:#dce9f7;
+  font-size:clamp(14px,.95vw,17px);
+  line-height:1.25;
+}
+.interviewPanel.good .interviewPill{border-color:#2b709b;background:rgba(7,21,34,.88)}
+@media(max-width:1100px){
+  .interviewSlideBalanced{grid-template-columns:1fr;gap:16px}
+  .interviewVerdict{padding-top:20px}
 }
 
+/* --- Slide 14 rebuilt: explicit risk matrix layout --- */
+.slideInner:has(.riskMatrixWide) > h1{max-width:880px}
+.slideInner:has(.riskMatrixWide) > .sub{max-width:760px;margin-top:18px}
+.riskMatrixWide{width:100%;margin-top:22px}
+.riskMatrixShell{
+  display:grid;
+  grid-template-columns:64px 74px minmax(0,1fr) minmax(0,1fr);
+  grid-template-rows:auto auto minmax(140px,1fr) minmax(140px,1fr);
+  grid-template-areas:
+    '. . top top'
+    '. . col1 col2'
+    'side row1 cell1 cell2'
+    'side row2 cell3 cell4';
+  gap:12px;
+  align-items:stretch;
+}
+.riskAxisTopWide{
+  grid-area:top;
+  text-align:center;
+  color:#91a6bd;
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.riskAxisLeftWide{
+  grid-area:side;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#91a6bd;
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+}
+.riskColLabel,.riskRowLabel{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#b8c9da;
+  font-size:12px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.riskColLow{grid-area:col1}
+.riskColHigh{grid-area:col2}
+.riskRowHigh{grid-area:row1}
+.riskRowLow{grid-area:row2}
+.riskCellWide{
+  border:1px solid #284c69;
+  border-radius:18px;
+  padding:18px;
+  background:#0d1e30;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:12px;
+  min-height:140px;
+}
+.riskCellWide strong{font-size:20px;line-height:1.12}
+.riskCellWide span{color:#93a8bc;font-size:14px;line-height:1.45}
+.riskCellWide.hot{border-color:#39d5ff;background:linear-gradient(145deg,#0d3147,#10283e);box-shadow:0 0 0 1px rgba(57,213,255,.08) inset}
+.riskCellWide.hot strong{color:#39d5ff}
+.riskCellWide .riskExample{margin-top:4px}
+.cell-test{grid-area:cell1}
+.cell-known{grid-area:cell2}
+.cell-park{grid-area:cell3}
+.cell-monitor{grid-area:cell4}
+@media(max-width:1100px){
+  .riskMatrixShell{
+    grid-template-columns:60px 58px 1fr 1fr;
+    gap:10px;
+  }
+  .riskCellWide{padding:14px;min-height:120px}
+  .riskCellWide strong{font-size:16px}
+  .riskCellWide span,.riskCellWide .riskExample{font-size:12px}
+}
 
 /* --- Human decision gate patch --- */
 #stageBanner{justify-content:flex-start !important}
@@ -388,7 +522,7 @@ const S=[
 'Use the map to make the hidden assumptions visible. Emphasise that these are questions to test, not facts to defend.',
 'Using the discovery plan and secondary research already captured in the Venture Evidence Brief, identify the assumptions that would have to be true for there to be a worthwhile opportunity connecting students seeking affordable prepared food with cafés that have surplus. Group them into customer, problem, timing, operational, economic, behavioural and market assumptions. Rank them by importance and evidence strength. Do not design the product yet.'],
 
-['Empathise','','','','<div class="interviewSlide"><div class="interviewIntro"><div class="eye">Customer interviews</div><h1>Ask about the past, not the imaginary future.</h1><div class="sub">Behaviour beats polite intent.</div><div class="interviewRule"><strong>Behaviour</strong> is stronger evidence than intention.</div></div><div class="interviewCompare"><div class="interviewCards"><div class="interviewCard bad"><div class="interviewLabel">Bad question</div><div class="interviewQuote">“Would you use this?”</div><div class="interviewMeta">Hypothetical • polite intent • easy to overstate</div></div><div class="interviewCard good"><div class="interviewLabel">Better question</div><div class="interviewQuote">“Tell me about the last time this happened.”</div><div class="interviewMeta">Past behaviour • specific context • real trade-offs</div></div></div></div></div>','Behaviour is stronger evidence than polite intent. Build the interview guide from the highest-risk assumptions in the brief.','Using the highest-priority, lowest-evidence assumptions in our Venture Evidence Brief, create a behaviour-based interview guide for the relevant student and café participants. Focus on real past behaviour, current workarounds, frequency, triggers, costs and trade-offs. For each question, state which assumption it tests and what answer would weaken that assumption.'],
+['Empathise','','','','<div class="interviewSlideBalanced"><div class="interviewLead"><div class="interviewKicker">Customer interviews</div><div class="interviewHeadline">Ask about the past, not the imaginary future.</div><div class="interviewLeadSub">Behaviour beats polite intent.</div><div class="interviewVerdict"><strong>Behaviour</strong> is stronger evidence than intention.</div></div><div class="interviewPanel bad"><div class="interviewLabel">Bad question</div><div class="interviewQuote">“Would you use this?”</div><div class="interviewMeta">Hypothetical</div><div class="interviewPills"><span class="interviewPill">polite intent</span><span class="interviewPill">easy to overstate</span></div></div><div class="interviewPanel good"><div class="interviewLabel">Better question</div><div class="interviewQuote">“Tell me about the last time this happened.”</div><div class="interviewMeta">Past behaviour</div><div class="interviewPills"><span class="interviewPill">specific context</span><span class="interviewPill">real trade-offs</span></div></div></div>','Behaviour is stronger evidence than polite intent. Build the interview guide from the highest-risk assumptions in the brief.','Using the highest-priority, lowest-evidence assumptions in our Venture Evidence Brief, create a behaviour-based interview guide for the relevant student and café participants. Focus on real past behaviour, current workarounds, frequency, triggers, costs and trade-offs. For each question, state which assumption it tests and what answer would weaken that assumption.'],
 ['Empathise',
 'After the interviews',
 'AI can synthesise. You interpret.',
@@ -414,7 +548,7 @@ const S=[
 'Use the two sides to show that customers care about making progress, not about the product itself. Keep the technology secondary to the outcomes.',
 'Using the problem statement selected in the previous step and the evidence already in the Venture Evidence Brief, build a Jobs-to-Be-Done analysis for the priority customer. Include functional, emotional and social jobs, triggers, anxieties, current alternatives, desired outcomes and switching barriers. Label anything not supported by evidence as a hypothesis.'],
 
-['Define','Risk first','Find the assumption that can kill the business.','High importance + low evidence = test next.','<div class="riskMatrix"><div class="riskGrid"><div></div><div class="riskAxisTop">Evidence strength</div><div></div><div class="riskAxisSide">Importance</div><div class="riskHead">Low evidence</div><div class="riskHead">High evidence</div><div class="riskHead">High</div><div class="riskCell hot"><strong>TEST FIRST</strong><span>High importance. Weak evidence. This is where learning has the highest value.</span><div class="riskExample">LastBite: Will cafés tolerate the operational effort at closing time?</div></div><div class="riskCell"><strong>Important / better known</strong><span>Keep watching, but evidence already reduces uncertainty.</span></div><div class="riskHead">Low</div><div class="riskCell"><strong>Park for now</strong><span>Do not spend scarce founder attention here yet.</span></div><div class="riskCell"><strong>Monitor</strong><span>Known enough and not currently critical.</span></div></div></div>','Use the matrix to show that startup work should be prioritised by importance and evidence, not by convenience. Pause on the cyan TEST FIRST quadrant and connect it to the LastBite example.','Using the selected problem statement, Jobs-to-Be-Done analysis and all evidence in the Venture Evidence Brief, rescore the remaining assumptions for business importance and evidence strength. Identify the high-importance, low-evidence assumptions and rank the next three learning priorities. Do not design experiments yet.'],
+['Define','Risk first','Find the assumption that can kill the business.','High importance + low evidence = test next.','<div class="riskMatrixWide"><div class="riskMatrixShell"><div class="riskAxisTopWide">Evidence strength</div><div class="riskAxisLeftWide">Importance</div><div class="riskColLabel riskColLow">Low evidence</div><div class="riskColLabel riskColHigh">High evidence</div><div class="riskRowLabel riskRowHigh">High</div><div class="riskRowLabel riskRowLow">Low</div><div class="riskCellWide hot cell-test"><strong>TEST FIRST</strong><span>High importance. Weak evidence. This is where learning has the highest value.</span><div class="riskExample">LastBite: Will cafés tolerate the operational effort at closing time?</div></div><div class="riskCellWide cell-known"><strong>Important / better known</strong><span>Keep watching, but evidence already reduces uncertainty.</span></div><div class="riskCellWide cell-park"><strong>Park for now</strong><span>Do not spend scarce founder attention here yet.</span></div><div class="riskCellWide cell-monitor"><strong>Monitor</strong><span>Known enough and not currently critical.</span></div></div></div>','Use the matrix to show that startup work should be prioritised by importance and evidence, not by convenience. Pause on the cyan TEST FIRST quadrant and connect it to the LastBite example.','Using the selected problem statement, Jobs-to-Be-Done analysis and all evidence in the Venture Evidence Brief, rescore the remaining assumptions for business importance and evidence strength. Identify the high-importance, low-evidence assumptions and rank the next three learning priorities. Do not design experiments yet.'],
 ['Define','Market size','TAM / SAM / SOM are models, not magic numbers.','Use AI to build the logic. Verify the inputs.','<div class="marketModel"><div class="marketCompare"><div class="marketCard"><div class="marketLabel">Top-down</div><div class="marketBig">“The food market is worth $X billion...”</div><div class="marketMuted">Impressive-looking numbers can hide weak assumptions. Big market ≠ reachable market.</div></div><div class="marketCard bottom"><div class="marketLabel">Bottom-up</div><div class="marketBig">Build the estimate from behaviour you can explain.</div><div class="marketFormula"><div class="marketTerm">8,000 relevant students</div><div class="marketTimes">×</div><div class="marketTerm">2 purchases / week</div><div class="marketTimes">×</div><div class="marketTerm">$8 transaction</div><div class="marketTimes">×</div><div class="marketTerm">30 weeks</div></div><div class="marketResult">Explainable market estimate — then verify every input.</div></div></div><div class="marketFunnel"><div class="marketStep"><strong>TAM</strong><span>Total theoretical market</span></div><div class="marketStep"><strong>SAM</strong><span>Market this model can serve</span></div><div class="marketStep"><strong>SOM</strong><span>Plausible early capture</span></div></div></div>','Use the contrast to show why bottom-up market sizing is more useful for an early-stage founder. The sample numbers are illustrative, not claims about LastBite. Emphasise: build the logic, then verify the inputs.','Using the customer definition, geography, behaviours and problem scope already established in our Venture Evidence Brief, build a bottom-up TAM/SAM/SOM model. Reuse observed inputs where available, identify external data still required, show every formula, create conservative/base/optimistic cases, and then critique the model as a skeptical investor.'],
 ['Ideate',
 '3. Ideate',
