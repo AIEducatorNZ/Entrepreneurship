@@ -189,6 +189,67 @@ html,body{
   }
 }
 
+
+
+/* --- Slide 10 balance patch: make Customer interviews use the full wide canvas --- */
+.story:has(.interviewSlide){
+  display:block;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  width:100%;
+  height:100%;
+}
+.interviewSlide{
+  width:100%;
+  min-height:100%;
+  display:grid;
+  grid-template-columns:minmax(360px,.86fr) minmax(520px,1.14fr);
+  gap:clamp(32px,5vw,92px);
+  align-items:center;
+}
+.interviewIntro .eye{
+  margin-bottom:18px;
+}
+.interviewIntro h1{
+  max-width:none;
+  font-size:clamp(52px,6.3vw,96px);
+  line-height:.92;
+}
+.interviewIntro .sub{
+  max-width:680px;
+  font-size:clamp(22px,2.1vw,34px);
+  margin-top:26px;
+}
+.interviewSlide .interviewCards{
+  grid-template-columns:1fr;
+  gap:18px;
+}
+.interviewSlide .interviewCard{
+  min-height:clamp(170px,22vh,260px);
+  padding:clamp(22px,2.5vw,36px);
+}
+.interviewSlide .interviewQuote{
+  font-size:clamp(32px,3.4vw,56px);
+}
+.interviewSlide .interviewMeta{
+  font-size:clamp(15px,1.15vw,20px);
+}
+.interviewSlide .interviewRule{
+  margin-top:36px;
+  text-align:left;
+  font-size:clamp(24px,2.8vw,44px);
+  line-height:1.08;
+}
+@media(max-width:900px){
+  .interviewSlide{grid-template-columns:1fr;gap:22px}
+  .interviewIntro h1{font-size:clamp(38px,9vw,64px)}
+  .interviewSlide .interviewCard{min-height:0}
+  .interviewSlide .interviewRule{margin-top:20px}
+}
+
 </style>
 
 <div class="frame">
@@ -317,7 +378,7 @@ const S=[
 'Use the map to make the hidden assumptions visible. Emphasise that these are questions to test, not facts to defend.',
 'Using the discovery plan and secondary research already captured in the Venture Evidence Brief, identify the assumptions that would have to be true for there to be a worthwhile opportunity connecting students seeking affordable prepared food with cafés that have surplus. Group them into customer, problem, timing, operational, economic, behavioural and market assumptions. Rank them by importance and evidence strength. Do not design the product yet.'],
 
-['Empathise','Customer interviews','Ask about the past, not the imaginary future.','','<div class="interviewCompare"><div class="interviewCards"><div class="interviewCard bad"><div class="interviewLabel">Bad question</div><div class="interviewQuote">“Would you use this?”</div><div class="interviewMeta">Hypothetical • polite intent • easy to overstate</div></div><div class="interviewCard good"><div class="interviewLabel">Better question</div><div class="interviewQuote">“Tell me about the last time this happened.”</div><div class="interviewMeta">Past behaviour • specific context • real trade-offs</div></div></div><div class="interviewRule"><strong>Behaviour</strong> is stronger evidence than intention.</div></div>','Behaviour is stronger evidence than polite intent. Build the interview guide from the highest-risk assumptions in the brief.','Using the highest-priority, lowest-evidence assumptions in our Venture Evidence Brief, create a behaviour-based interview guide for the relevant student and café participants. Focus on real past behaviour, current workarounds, frequency, triggers, costs and trade-offs. For each question, state which assumption it tests and what answer would weaken that assumption.'],
+['Empathise','','','','<div class="interviewSlide"><div class="interviewIntro"><div class="eye">Customer interviews</div><h1>Ask about the past, not the imaginary future.</h1><div class="sub">Behaviour beats polite intent.</div><div class="interviewRule"><strong>Behaviour</strong> is stronger evidence than intention.</div></div><div class="interviewCompare"><div class="interviewCards"><div class="interviewCard bad"><div class="interviewLabel">Bad question</div><div class="interviewQuote">“Would you use this?”</div><div class="interviewMeta">Hypothetical • polite intent • easy to overstate</div></div><div class="interviewCard good"><div class="interviewLabel">Better question</div><div class="interviewQuote">“Tell me about the last time this happened.”</div><div class="interviewMeta">Past behaviour • specific context • real trade-offs</div></div></div></div></div>','Behaviour is stronger evidence than polite intent. Build the interview guide from the highest-risk assumptions in the brief.','Using the highest-priority, lowest-evidence assumptions in our Venture Evidence Brief, create a behaviour-based interview guide for the relevant student and café participants. Focus on real past behaviour, current workarounds, frequency, triggers, costs and trade-offs. For each question, state which assumption it tests and what answer would weaken that assumption.'],
 ['Empathise',
 'After the interviews',
 'AI can synthesise. You interpret.',
